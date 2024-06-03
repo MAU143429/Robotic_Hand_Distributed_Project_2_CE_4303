@@ -258,9 +258,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    for (int i = 0; i < size_of_txt; i++) {
-        fprintf(output, "%s: %d\n", wordCounts[i].word, wordCounts[i].count);
-    }
+    
 
     fclose(output);
     free(wordCounts);

@@ -5,6 +5,7 @@
 #include <mpi.h>
 
 #define MANAGER 0
+#define TAG 1
 
 // Estructura del nodo para almacenar una palabra y su concurrencia
 typedef struct Node {
@@ -94,53 +95,35 @@ void readBuffer(Node **head, const char *buffer) {
     }
 }
 
-/* // Define una estructura para almacenar las palabras y sus frecuencias
-typedef struct {
-    char word[50];
-    int count;
-} WordCount;
-
-// Función para buscar una palabra en el array de WordCount
-int findWord(WordCount *wordCounts, int size, const char *word) {
-    for (int i = 0; i < size; i++) {
-        if (strcmp(wordCounts[i].word, word) == 0) {
-            return i;
-        }
-    }
-    return -1;
-} */
-
-/* // Función para leer un archivo y actualizar el array de WordCount
-void processFile(const char *filename, WordCount **wordCounts, int *size, int *capacity) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        perror("Error al abrir el archivo");
-        return;
+char* saveToBuffer(Node *head) {
+    size_t bufferSize = 1024;
+    size_t offset = 0;
+    char *buffer = (char *)malloc(bufferSize);
+    if (buffer == NULL) {
+        perror("Error allocating memory");
+        exit(EXIT_FAILURE);
     }
 
-    char word[50];
-    int count;
-    while (fscanf(file, "%49[^:]: %d\n", word, &count) == 2) {
-        int index = findWord(*wordCounts, *size, word);
-        if (index != -1) {
-            (*wordCounts)[index].count += count;
-        } else {
-            if (*size == *capacity) {
-                *capacity *= 2;
-                *wordCounts = realloc(*wordCounts, *capacity * sizeof(WordCount));
-                if (*wordCounts == NULL) {
-                    perror("Error al reallocar memoria");
-                    exit(1);
-                }
+    Node *current = head;
+    while (current != NULL) {
+        // Calcula el tamaño necesario para la cadena actual
+        size_t needed = snprintf(NULL, 0, "%s: %d\n", current->word, current->count);
+        if (offset + needed + 1 > bufferSize) {
+            // Redimensiona el buffer si es necesario
+            bufferSize *= 2;
+            buffer = (char *)realloc(buffer, bufferSize);
+            if (buffer == NULL) {
+                perror("Error reallocating memory");
+                exit(EXIT_FAILURE);
             }
-            strcpy((*wordCounts)[*size].word, word);
-            (*wordCounts)[*size].count = count;
-            (*size)++;
         }
+        // Agrega la cadena al buffer
+        offset += snprintf(buffer + offset, bufferSize - offset, "%s: %d\n", current->word, current->count);
+        current = current->next;
     }
 
-    fclose(file);
-} */
+    return buffer;
+}
 
 int main(int argc, char *argv[]) {
     Node *head = NULL;
@@ -200,21 +183,39 @@ int main(int argc, char *argv[]) {
     MPI_Scatterv(buffer, lengths, displs, MPI_CHAR, local_chunk, recv_length, MPI_CHAR, MANAGER, MPI_COMM_WORLD);
     local_chunk[recv_length] = '\0';
 
-
+    //Quitar es rank==0 y ponerlo abajo
     if(rank==0){
         printf("Hola soy master trabajando\n");
         Node *head0 = NULL;
-        
         readBuffer(&head0,local_chunk);
-        writeFile(head0, "master.txt");
+    
+        char *buffer0= saveToBuffer(head0);
+        int local_lengths_0 = strlen(buffer0);
+        printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+
+        printf("Chunk_del_buffer_0:%s\n",buffer0);
+
+        free(buffer0);
         freeList(head0);
 
     }else if(rank==1){
         Node *head1 = NULL;
 
         printf("Hola soy esclavo 1\n");
+
         readBuffer(&head1,local_chunk);
-        writeFile(head1, "slave_1.txt");
+
+        char *buffer1 = saveToBuffer(head1);
+
+        //printf("BUffer1:%s\n", buffer1);
+
+        int local_lengths_1 = strlen(buffer1);
+
+        MPI_Send(&local_lengths_1, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer1, local_lengths_1, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+
+        free(buffer1);
         freeList(head1);
 
     }else if(rank==2){
@@ -222,7 +223,19 @@ int main(int argc, char *argv[]) {
 
         printf("Hola soy esclavo 2\n");
         readBuffer(&head2,local_chunk);
-        writeFile(head2, "slave_2.txt");
+        
+        char *buffer2 = saveToBuffer(head2);
+
+        //printf("BUffer2:%s\n", buffer2);
+
+        int local_lengths_2 = strlen(buffer2);
+
+        MPI_Send(&local_lengths_2, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer2, local_lengths_2, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+
+
+        free(buffer2);
         freeList(head2);
 
         
@@ -230,39 +243,55 @@ int main(int argc, char *argv[]) {
         Node *head3 = NULL;
         printf("Hola soy esclavo 3\n");
         readBuffer(&head3,local_chunk);
-        writeFile(head3, "slave_3.txt");
+
+        char *buffer3 = saveToBuffer(head3);
+
+
+        int local_lengths_3 = strlen(buffer3);
+
+        MPI_Send(&local_lengths_3, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer3, local_lengths_3, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+        free(buffer3);
         freeList(head3);
         
     }
-    /* //Procesar txts (la mejor opcion es enviar el struct) *Cambiar eso mañana
-    int capacity = 10;
-    WordCount *wordCounts = malloc(capacity * sizeof(WordCount));
-    if (wordCounts == NULL) {
-        perror("Error al asignar memoria");
-        return 1;
-    } */
 
-    /* int size_of_txt = 0;
 
-    // Procesar los cuatro archivos
-    processFile("master.txt", &wordCounts, &size_of_txt, &capacity);
-    processFile("slave_1.txt", &wordCounts, &size_of_txt, &capacity);
-    processFile("slave_2.txt", &wordCounts, &size_of_txt, &capacity);
-    processFile("slave_3.txt", &wordCounts, &size_of_txt, &capacity);
+    if (rank==0){
+        int local_lengths_1,local_lengths_2,local_lengths_3;
+        MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-    // Escribir el resultado combinado en un nuevo archivo
-    FILE *output = fopen("archivo_combinado.txt", "w");
-    if (!output) {
-        perror("Error al abrir el archivo de salida");
-        free(wordCounts);
-        return 1;
+        char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+        char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+        char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+
+        MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);     
+
+        buffer_1[local_lengths_1] = '\0';
+        buffer_2[local_lengths_2] = '\0';
+        buffer_3[local_lengths_3] = '\0';
+
+        printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+        printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+        printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+
+        printf("Chunk_del_buffer_1:%s\n",buffer_1);
+        printf("Chunk_del_buffer_2:%s\n",buffer_2);
+        printf("Chunk_del_buffer_3:%s\n",buffer_3);
+
+
+
+        free(buffer_1);
+        free(buffer_2);
+        free(buffer_3);  
     }
-    for (int i = 0; i < size_of_txt; i++) {
-        fprintf(output, "%s: %d\n", wordCounts[i].word, wordCounts[i].count);
-    } */
 
-    fclose(output);
-    free(wordCounts);
+   
     free(buffer);
     free(local_chunk);
     MPI_Finalize();

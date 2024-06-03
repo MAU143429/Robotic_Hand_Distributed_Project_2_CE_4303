@@ -84,32 +84,6 @@ void freeList(Node *head) {
     }
 }
 
-/* void readBuffer(Node **head, char *buffer, int length) {
-    char *word = (char *)malloc((length + 1) * sizeof(char)); // Buffer dinámico
-    int i = 0;
-    int j = 0;
-
-    while (i < length) {
-        if (isspace(buffer[i]) || ispunct(buffer[i])) {
-            if (j > 0) {
-                word[j] = '\0';
-                addWord(head, word);
-                j = 0;
-            }
-        } else {
-            word[j++] = buffer[i];
-        }
-        i++;
-    }
-
-    if (j > 0) {
-        word[j] = '\0';
-        addWord(head, word);
-    }
-
-    free(word); // Liberar la memoria del buffer dinámico
-} */
-
 
 void readBuffer(Node **head, const char *buffer) {
     const char *delimiter = " \t\n"; // Delimitadores para palabras
@@ -118,6 +92,54 @@ void readBuffer(Node **head, const char *buffer) {
         addWord(head, word);
         word = strtok(NULL, delimiter);
     }
+}
+
+// Define una estructura para almacenar las palabras y sus frecuencias
+typedef struct {
+    char word[50];
+    int count;
+} WordCount;
+
+// Función para buscar una palabra en el array de WordCount
+int findWord(WordCount *wordCounts, int size, const char *word) {
+    for (int i = 0; i < size; i++) {
+        if (strcmp(wordCounts[i].word, word) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Función para leer un archivo y actualizar el array de WordCount
+void processFile(const char *filename, WordCount **wordCounts, int *size, int *capacity) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Error al abrir el archivo");
+        return;
+    }
+
+    char word[50];
+    int count;
+    while (fscanf(file, "%49[^:]: %d\n", word, &count) == 2) {
+        int index = findWord(*wordCounts, *size, word);
+        if (index != -1) {
+            (*wordCounts)[index].count += count;
+        } else {
+            if (*size == *capacity) {
+                *capacity *= 2;
+                *wordCounts = realloc(*wordCounts, *capacity * sizeof(WordCount));
+                if (*wordCounts == NULL) {
+                    perror("Error al reallocar memoria");
+                    exit(1);
+                }
+            }
+            strcpy((*wordCounts)[*size].word, word);
+            (*wordCounts)[*size].count = count;
+            (*size)++;
+        }
+    }
+
+    fclose(file);
 }
 
 int main(int argc, char *argv[]) {
@@ -212,7 +234,36 @@ int main(int argc, char *argv[]) {
         freeList(head3);
         
     }
+    //Procesar txts (la mejor opcion es enviar el struct) *Cambiar eso mañana
+    int capacity = 10;
+    WordCount *wordCounts = malloc(capacity * sizeof(WordCount));
+    if (wordCounts == NULL) {
+        perror("Error al asignar memoria");
+        return 1;
+    }
 
+    int size_of_txt = 0;
+
+    // Procesar los cuatro archivos
+    processFile("master.txt", &wordCounts, &size_of_txt, &capacity);
+    processFile("slave_1.txt", &wordCounts, &size_of_txt, &capacity);
+    processFile("slave_2.txt", &wordCounts, &size_of_txt, &capacity);
+    processFile("slave_3.txt", &wordCounts, &size_of_txt, &capacity);
+
+    // Escribir el resultado combinado en un nuevo archivo
+    FILE *output = fopen("archivo_combinado.txt", "w");
+    if (!output) {
+        perror("Error al abrir el archivo de salida");
+        free(wordCounts);
+        return 1;
+    }
+
+    for (int i = 0; i < size_of_txt; i++) {
+        fprintf(output, "%s: %d\n", wordCounts[i].word, wordCounts[i].count);
+    }
+
+    fclose(output);
+    free(wordCounts);
     free(buffer);
     free(local_chunk);
     MPI_Finalize();

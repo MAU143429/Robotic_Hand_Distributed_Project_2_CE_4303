@@ -94,7 +94,7 @@ void readBuffer(Node **head, const char *buffer) {
     }
 }
 
-// Define una estructura para almacenar las palabras y sus frecuencias
+/* // Define una estructura para almacenar las palabras y sus frecuencias
 typedef struct {
     char word[50];
     int count;
@@ -108,9 +108,9 @@ int findWord(WordCount *wordCounts, int size, const char *word) {
         }
     }
     return -1;
-}
+} */
 
-// Función para leer un archivo y actualizar el array de WordCount
+/* // Función para leer un archivo y actualizar el array de WordCount
 void processFile(const char *filename, WordCount **wordCounts, int *size, int *capacity) {
     FILE *file = fopen(filename, "r");
     if (!file) {
@@ -140,7 +140,7 @@ void processFile(const char *filename, WordCount **wordCounts, int *size, int *c
     }
 
     fclose(file);
-}
+} */
 
 int main(int argc, char *argv[]) {
     Node *head = NULL;
@@ -151,13 +151,13 @@ int main(int argc, char *argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    if (size != 4) {
+    /* if (size != 4) {
         if (rank == MANAGER) {
             fprintf(stderr, "Este programa necesita 4 procesos.\n");
         }
         MPI_Finalize();
         return EXIT_FAILURE;
-    }
+    } */
 
     int file_size, chunk_size;
     char *buffer = NULL;
@@ -234,15 +234,15 @@ int main(int argc, char *argv[]) {
         freeList(head3);
         
     }
-    //Procesar txts (la mejor opcion es enviar el struct) *Cambiar eso mañana
+    /* //Procesar txts (la mejor opcion es enviar el struct) *Cambiar eso mañana
     int capacity = 10;
     WordCount *wordCounts = malloc(capacity * sizeof(WordCount));
     if (wordCounts == NULL) {
         perror("Error al asignar memoria");
         return 1;
-    }
+    } */
 
-    int size_of_txt = 0;
+    /* int size_of_txt = 0;
 
     // Procesar los cuatro archivos
     processFile("master.txt", &wordCounts, &size_of_txt, &capacity);
@@ -259,9 +259,7 @@ int main(int argc, char *argv[]) {
     }
     for (int i = 0; i < size_of_txt; i++) {
         fprintf(output, "%s: %d\n", wordCounts[i].word, wordCounts[i].count);
-    }
-
-    
+    } */
 
     fclose(output);
     free(wordCounts);

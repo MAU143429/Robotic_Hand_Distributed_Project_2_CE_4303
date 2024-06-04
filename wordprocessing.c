@@ -13,7 +13,7 @@
 #define MOD(i, n) (i % n + n) % n // Calcular módulo positivo
 #define MAXIMA_LONGITUD_CADENA 1000000
 
-
+//Ultima version
 const char *alfabetoMinusculas = "abcdefghijklmnopqrstuvwxyz",
         *alfabetoMayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

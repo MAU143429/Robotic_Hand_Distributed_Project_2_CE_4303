@@ -7,6 +7,17 @@
 #define MANAGER 0
 #define TAG 1
 
+#define LONGITUD_ALFABETO 26
+#define INICIO_ALFABETO_MAYUSCULAS 65
+#define INICIO_ALFABETO_MINUSCULAS 97
+#define MAXIMA_LONGITUD_CADENA 10000
+#define MOD(i, n) (i % n + n) % n // Calcular módulo positivo
+
+
+const char *alfabetoMinusculas = "abcdefghijklmnopqrstuvwxyz",
+        *alfabetoMayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+
 // Estructura del nodo para almacenar una palabra y su concurrencia
 typedef struct Node {
     char *word;

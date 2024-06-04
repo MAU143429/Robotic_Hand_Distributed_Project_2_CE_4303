@@ -11,7 +11,7 @@
 #define INICIO_ALFABETO_MAYUSCULAS 65
 #define INICIO_ALFABETO_MINUSCULAS 97
 #define MOD(i, n) (i % n + n) % n // Calcular módulo positivo
-#define MAXIMA_LONGITUD_CADENA 10000
+#define MAXIMA_LONGITUD_CADENA 1000000
 
 
 const char *alfabetoMinusculas = "abcdefghijklmnopqrstuvwxyz",

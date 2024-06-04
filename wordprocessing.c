@@ -11,6 +11,7 @@
 #define INICIO_ALFABETO_MAYUSCULAS 65
 #define INICIO_ALFABETO_MINUSCULAS 97
 #define MOD(i, n) (i % n + n) % n // Calcular módulo positivo
+#define MAXIMA_LONGITUD_CADENA 10000
 
 
 const char *alfabetoMinusculas = "abcdefghijklmnopqrstuvwxyz",
@@ -280,7 +281,8 @@ int main(int argc, char *argv[]) {
 
     if(rank==1){
         Node *head1 = NULL;
-        char* buffer_1_cifrado;
+
+        char buffer_1_cifrado[MAXIMA_LONGITUD_CADENA];
 
         printf("Hola soy esclavo 1\n");
 
@@ -288,29 +290,30 @@ int main(int argc, char *argv[]) {
 
         char *buffer1 = saveToBuffer(head1);
 
-        int local_lengths_1 = strlen(buffer1);
+        cifrar(buffer1,buffer_1_cifrado,3);
 
-        cifrar(buffer1, buffer_1_cifrado, 3);
-
+        int local_lengths_1 = strlen(buffer_1_cifrado);
+        
         MPI_Send(&local_lengths_1, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
 
         free(buffer1);
-        free(buffer_1_cifrado)
         freeList(head1);
 
     }else if(rank==2){
         Node *head2 = NULL;
-        char* buffer_2_cifrado;
+        char buffer_2_cifrado[MAXIMA_LONGITUD_CADENA];
 
         printf("Hola soy esclavo 2\n");
         readBuffer(&head2,local_chunk);
         
         char *buffer2 = saveToBuffer(head2);
-        int local_lengths_2 = strlen(buffer2);
+        
         
         cifrar(buffer2, buffer_2_cifrado, 3);
+
+        int local_lengths_2 = strlen(buffer_2_cifrado);
 
         MPI_Send(&local_lengths_2, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
@@ -318,96 +321,92 @@ int main(int argc, char *argv[]) {
 
 
         free(buffer2);
-        free(buffer_2_cifrado)
         freeList(head2);
 
         
     }else if(rank==3){
         Node *head3 = NULL;
-        char *buffer_3_cifrado;
+        char buffer_3_cifrado[MAXIMA_LONGITUD_CADENA];
 
         printf("Hola soy esclavo 3\n");
         readBuffer(&head3,local_chunk);
 
         char *buffer3 = saveToBuffer(head3);
-        int local_lengths_3 = strlen(buffer3);
+        
 
         cifrar(buffer3, buffer_3_cifrado, 3);
+        int local_lengths_3 = strlen(buffer_3_cifrado);
 
         MPI_Send(&local_lengths_3, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer3);
-        free(buffer_3_cifrado)
         freeList(head3);
         
     }
     else if(rank==4){
         Node *head4 = NULL;
-        char *buffer_4_cifrado;
+        char buffer_4_cifrado[MAXIMA_LONGITUD_CADENA];
 
         printf("Hola soy esclavo 4\n");
         readBuffer(&head4,local_chunk);
 
         char *buffer4 = saveToBuffer(head4);
-        int local_lengths_4 = strlen(buffer4);
+        
 
         cifrar(buffer4, buffer_4_cifrado, 3);
-
+        int local_lengths_4 = strlen(buffer_4_cifrado);
 
         MPI_Send(&local_lengths_4, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_4_cifrado, local_lengths_4, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer4);
-        free(buffer_4_cifrado)
         freeList(head4);
         
     }
     else if(rank==5){
         Node *head5 = NULL;
-        char *buffer_5_cifrado;
+        char buffer_5_cifrado[MAXIMA_LONGITUD_CADENA];
         printf("Hola soy esclavo 5\n");
         readBuffer(&head5,local_chunk);
 
         char *buffer5 = saveToBuffer(head5);
 
 
-        int local_lengths_5 = strlen(buffer5);
+        
 
         cifrar(buffer5, buffer_5_cifrado, 3);
-
+        int local_lengths_5 = strlen(buffer_5_cifrado);
         MPI_Send(&local_lengths_5, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_5_cifrado, local_lengths_5, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer5);
-        free(buffer_5_cifrado)
         freeList(head5);
     }
     else if(rank==6){
         Node *head6 = NULL;
-        char* buffer_6_cifrado;
+        char buffer_6_cifrado[MAXIMA_LONGITUD_CADENA];
         printf("Hola soy esclavo 6\n");
         readBuffer(&head6,local_chunk);
 
         char *buffer6 = saveToBuffer(head6);
 
 
-        int local_lengths_6 = strlen(buffer6);
+        
 
         cifrar(buffer6, buffer_6_cifrado, 3);
-
+        int local_lengths_6 = strlen(buffer_6_cifrado);
         MPI_Send(&local_lengths_6, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_6_cifrado, local_lengths_6, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer6);
-        free(buffer_6_cifrado);
         freeList(head6);
         
     }
     else if(rank==7){
         Node *head7 = NULL;
 
-        char* buffer_7_cifrado;
+        char buffer_7_cifrado[MAXIMA_LONGITUD_CADENA];
 
         printf("Hola soy esclavo 7\n");
         readBuffer(&head7,local_chunk);
@@ -415,14 +414,13 @@ int main(int argc, char *argv[]) {
         char *buffer7 = saveToBuffer(head7);
 
 
-        int local_lengths_7 = strlen(buffer7);
+        
         cifrar(buffer7, buffer_7_cifrado, 3);
-
+        int local_lengths_7 = strlen(buffer_7_cifrado);
         MPI_Send(&local_lengths_7, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer_7_cifrado, local_lengths_7, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer7);
-        free(buffer_7_cifrado);
         freeList(head7);
         
     }
@@ -444,7 +442,20 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            
+            Node *mergedHead = NULL;
+            mergedBuffer(&mergedHead, buffer0);
+
+            // Encontrar la palabra más frecuente
+            Node *mostFrequent = findMostFrequentWord(mergedHead);
+
+            // Mostrar e imprimir la palabra más frecuente
+            if (mostFrequent != NULL) {
+                printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+            } else {
+                printf("No words found in the list.\n");
+            } 
+
             free(buffer0);
 
         }else if (size==2){
@@ -458,7 +469,10 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
+
+
+
 
             // Crear una nueva lista para almacenar los conteos combinados
             Node *mergedHead = NULL;
@@ -466,11 +480,13 @@ int main(int argc, char *argv[]) {
             
 
             MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-            char *buffer_1, buffer_1_cifrado= (char *)malloc(local_lengths_1 +1 );
+            
+            char *buffer_1=(char *)malloc(local_lengths_1 +1 );
             
             
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            descifrar(buffer_1_cifrado, buffer_1, 3);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            descifrar(buffer_1, buffer_1, 3);
+            
 
             buffer_1[local_lengths_1] = '\0';
 
@@ -478,9 +494,9 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
 
 
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            //printf("Chunk_del_buffer_1:%s\n",buffer_1);
 
-            mergedBuffer(&mergedHead, buffer1);
+            mergedBuffer(&mergedHead, buffer_1);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -490,11 +506,11 @@ int main(int argc, char *argv[]) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
             } else {
                 printf("No words found in the list.\n");
-            }
+            } 
 
             
             free(buffer_1);
-            free(buffer_1_cifrado);
+            //free(buffer_1_cifrado);
             free(buffer0);
 
         }else if (size==3){
@@ -508,7 +524,7 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
             
@@ -519,18 +535,21 @@ int main(int argc, char *argv[]) {
            
           
 
-            char *buffer_1, *buffer_1_cifrado= (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
+            char *buffer_1= (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
             
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
             buffer_1[local_lengths_1] = '\0';
             buffer_2[local_lengths_2] = '\0';
 
+
+            /* printf("Chunk_del_buffer_1:%s\n",buffer_1); */
+            /* printf("Chunk_del_buffer_2:%s\n",buffer_2); */
 
             mergedBuffer(&mergedHead, buffer_1);
             mergedBuffer(&mergedHead, buffer_2);
@@ -538,8 +557,6 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
 
 
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -567,7 +584,7 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
             
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
@@ -578,18 +595,18 @@ int main(int argc, char *argv[]) {
            
           
 
-            char *buffer_1, *buffer_1_cifrado = (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
-            char *buffer_3, *buffer_3_cifrado = (char *)malloc(local_lengths_3 +1);
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
             
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
-            descifrar(buffer_3_cifrado, buffer_3, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
+            descifrar(buffer_3, buffer_3, 3);
 
             
             buffer_1[local_lengths_1] = '\0';
@@ -604,11 +621,6 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
             printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
             printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
-
-
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
-            printf("Chunk_del_buffer_3:%s\n",buffer_3);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -640,7 +652,7 @@ int main(int argc, char *argv[]) {
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
             //free(buffer0);
 
             MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
@@ -650,21 +662,21 @@ int main(int argc, char *argv[]) {
           
 
             
-            char *buffer_1, *buffer_1_cifrado = (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
-            char *buffer_3, *buffer_3_cifrado = (char *)malloc(local_lengths_3 +1);
-            char *buffer_4, *buffer_4_cifrado = (char *)malloc(local_lengths_4 +1);
+            char *buffer_1= (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
             
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_4_cifrado, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
-            descifrar(buffer_3_cifrado, buffer_3, 3);
-            descifrar(buffer_4_cifrado, buffer_4, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
+            descifrar(buffer_3, buffer_3, 3);
+            descifrar(buffer_4, buffer_4, 3);
             
             buffer_1[local_lengths_1] = '\0';
             buffer_2[local_lengths_2] = '\0';
@@ -683,10 +695,7 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_4:%d\n",local_lengths_4);
 
 
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
-            printf("Chunk_del_buffer_3:%s\n",buffer_3);
-            printf("Chunk_del_buffer_4:%s\n",buffer_4);
+
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -716,12 +725,10 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
 
-            Node *mergedHead = NULL;
-            mergedBuffer(&mergedHead, buffer0);
             //free(buffer0);
 
             MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
@@ -730,23 +737,23 @@ int main(int argc, char *argv[]) {
             MPI_Recv(&local_lengths_4,1,MPI_INT,4,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             MPI_Recv(&local_lengths_5,1,MPI_INT,5,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
            
-            char *buffer_1, *buffer_1_cifrado = (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
-            char *buffer_3, *buffer_3_cifrado = (char *)malloc(local_lengths_3 +1);
-            char *buffer_4, *buffer_4_cifrado = (char *)malloc(local_lengths_4 +1);
-            char *buffer_5, *buffer_5_cifrado = (char *)malloc(local_lengths_5 +1);
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_4_cifrado, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5_cifrado, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
-            descifrar(buffer_3_cifrado, buffer_3, 3);
-            descifrar(buffer_4_cifrado, buffer_4, 3);
-            descifrar(buffer_5_cifrado, buffer_5, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
+            descifrar(buffer_3, buffer_3, 3);
+            descifrar(buffer_4, buffer_4, 3);
+            descifrar(buffer_5, buffer_5, 3);
         
             
             buffer_1[local_lengths_1] = '\0';
@@ -768,11 +775,6 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
           
 
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
-            printf("Chunk_del_buffer_3:%s\n",buffer_3);
-            printf("Chunk_del_buffer_4:%s\n",buffer_4);
-            printf("Chunk_del_buffer_5:%s\n",buffer_5);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -803,7 +805,7 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
 
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
@@ -817,26 +819,26 @@ int main(int argc, char *argv[]) {
             MPI_Recv(&local_lengths_5,1,MPI_INT,5,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             MPI_Recv(&local_lengths_6,1,MPI_INT,6,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-           char *buffer_1, *buffer_1_cifrado = (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
-            char *buffer_3, *buffer_3_cifrado = (char *)malloc(local_lengths_3 +1);
-            char *buffer_4, *buffer_4_cifrado = (char *)malloc(local_lengths_4 +1);
-            char *buffer_5, *buffer_5_cifrado = (char *)malloc(local_lengths_5 +1);
-            char *buffer_6, *buffer_6_cifrado = (char *)malloc(local_lengths_6 +1);
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
+            char *buffer_6 = (char *)malloc(local_lengths_6 +1);
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_4_cifrado, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5_cifrado, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_6_cifrado, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
-            descifrar(buffer_3_cifrado, buffer_3, 3);
-            descifrar(buffer_4_cifrado, buffer_4, 3);
-            descifrar(buffer_5_cifrado, buffer_5, 3);
-            descifrar(buffer_6_cifrado, buffer_6, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
+            descifrar(buffer_3, buffer_3, 3);
+            descifrar(buffer_4, buffer_4, 3);
+            descifrar(buffer_5, buffer_5, 3);
+            descifrar(buffer_6, buffer_6, 3);
         
             
             buffer_1[local_lengths_1] = '\0';
@@ -862,12 +864,6 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
             printf("Tamaño_de_buffer_6:%d\n",local_lengths_6);
 
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
-            printf("Chunk_del_buffer_3:%s\n",buffer_3);
-            printf("Chunk_del_buffer_4:%s\n",buffer_4);
-            printf("Chunk_del_buffer_5:%s\n",buffer_5);
-            printf("Chunk_del_buffer_6:%s\n",buffer_6);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);
@@ -899,7 +895,7 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            //printf("Chunk_del_buffer_0:%s\n",buffer0);
 
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
@@ -913,29 +909,29 @@ int main(int argc, char *argv[]) {
             MPI_Recv(&local_lengths_6,1,MPI_INT,6,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             MPI_Recv(&local_lengths_7,1,MPI_INT,7,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
-            char *buffer_1, *buffer_1_cifrado = (char *)malloc(local_lengths_1 +1 );
-            char *buffer_2, *buffer_2_cifrado = (char *)malloc(local_lengths_2 +1);
-            char *buffer_3, *buffer_3_cifrado = (char *)malloc(local_lengths_3 +1);
-            char *buffer_4, *buffer_4_cifrado = (char *)malloc(local_lengths_4 +1);
-            char *buffer_5, *buffer_5_cifrado = (char *)malloc(local_lengths_5 +1);
-            char *buffer_6, *buffer_6_cifrado = (char *)malloc(local_lengths_6 +1);
-            char *buffer_7, *buffer_7_cifrado = (char *)malloc(local_lengths_7 +1);
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
+            char *buffer_6 = (char *)malloc(local_lengths_6 +1);
+            char *buffer_7 = (char *)malloc(local_lengths_7 +1);
 
-            MPI_Recv(buffer_1_cifrado, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_2_cifrado, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_3_cifrado, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_4_cifrado, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5_cifrado, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_6_cifrado, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_7_cifrado, local_lengths_7, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_7, local_lengths_7, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            descifrar(buffer_1_cifrado, buffer_1, 3);
-            descifrar(buffer_2_cifrado, buffer_2, 3);
-            descifrar(buffer_3_cifrado, buffer_3, 3);
-            descifrar(buffer_4_cifrado, buffer_4, 3);
-            descifrar(buffer_5_cifrado, buffer_5, 3);
-            descifrar(buffer_6_cifrado, buffer_6, 3);
-            descifrar(buffer_7_cifrado, buffer_7, 3);
+            descifrar(buffer_1, buffer_1, 3);
+            descifrar(buffer_2, buffer_2, 3);
+            descifrar(buffer_3, buffer_3, 3);
+            descifrar(buffer_4, buffer_4, 3);
+            descifrar(buffer_5, buffer_5, 3);
+            descifrar(buffer_6, buffer_6, 3);
+            descifrar(buffer_7, buffer_7, 3);
             
             buffer_1[local_lengths_1] = '\0';
             buffer_2[local_lengths_2] = '\0';
@@ -960,14 +956,6 @@ int main(int argc, char *argv[]) {
             printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
             printf("Tamaño_de_buffer_6:%d\n",local_lengths_6);
             printf("Tamaño_de_buffer_7:%d\n",local_lengths_7);
-
-            printf("Chunk_del_buffer_1:%s\n",buffer_1);
-            printf("Chunk_del_buffer_2:%s\n",buffer_2);
-            printf("Chunk_del_buffer_3:%s\n",buffer_3);
-            printf("Chunk_del_buffer_4:%s\n",buffer_4);
-            printf("Chunk_del_buffer_5:%s\n",buffer_5);
-            printf("Chunk_del_buffer_6:%s\n",buffer_6);
-            printf("Chunk_del_buffer_7:%s\n",buffer_7);
 
             // Encontrar la palabra más frecuente
             Node *mostFrequent = findMostFrequentWord(mergedHead);

@@ -56,7 +56,7 @@ void addWord(Node **head, char *word) {
 
 
 // Función para escribir la lista de palabras y sus conteos en un archivo
-void writeFile(Node *head, const char *filename) {
+/*void writeFile(Node *head, const char *filename) {
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
         perror("Error opening file");
@@ -70,7 +70,7 @@ void writeFile(Node *head, const char *filename) {
     }
 
     fclose(file);
-}
+}*/
 
 // Función para liberar la memoria de la lista
 void freeList(Node *head) {
@@ -183,22 +183,7 @@ int main(int argc, char *argv[]) {
     MPI_Scatterv(buffer, lengths, displs, MPI_CHAR, local_chunk, recv_length, MPI_CHAR, MANAGER, MPI_COMM_WORLD);
     local_chunk[recv_length] = '\0';
 
-    //Quitar es rank==0 y ponerlo abajo
-    if(rank==0){
-        printf("Hola soy master trabajando\n");
-        Node *head0 = NULL;
-        readBuffer(&head0,local_chunk);
-    
-        char *buffer0= saveToBuffer(head0);
-        int local_lengths_0 = strlen(buffer0);
-        printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-
-        printf("Chunk_del_buffer_0:%s\n",buffer0);
-
-        free(buffer0);
-        freeList(head0);
-
-    }else if(rank==1){
+    if(rank==1){
         Node *head1 = NULL;
 
         printf("Hola soy esclavo 1\n");
@@ -226,9 +211,9 @@ int main(int argc, char *argv[]) {
         
         char *buffer2 = saveToBuffer(head2);
 
-        //printf("BUffer2:%s\n", buffer2);
 
         int local_lengths_2 = strlen(buffer2);
+        
 
         MPI_Send(&local_lengths_2, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer2, local_lengths_2, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
@@ -256,39 +241,469 @@ int main(int argc, char *argv[]) {
         freeList(head3);
         
     }
+    else if(rank==4){
+        Node *head4 = NULL;
+        printf("Hola soy esclavo 4\n");
+        readBuffer(&head4,local_chunk);
+
+        char *buffer4 = saveToBuffer(head4);
+
+
+        int local_lengths_4 = strlen(buffer4);
+
+        MPI_Send(&local_lengths_4, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer4, local_lengths_4, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+        free(buffer4);
+        freeList(head4);
+        
+    }
+    else if(rank==5){
+        Node *head5 = NULL;
+        printf("Hola soy esclavo 5\n");
+        readBuffer(&head5,local_chunk);
+
+        char *buffer5 = saveToBuffer(head5);
+
+
+        int local_lengths_5 = strlen(buffer5);
+
+        MPI_Send(&local_lengths_5, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer5, local_lengths_5, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+        free(buffer5);
+        freeList(head5);
+        
+    }
+    else if(rank==6){
+        Node *head6 = NULL;
+        printf("Hola soy esclavo 6\n");
+        readBuffer(&head6,local_chunk);
+
+        char *buffer6 = saveToBuffer(head6);
+
+
+        int local_lengths_6 = strlen(buffer6);
+
+        MPI_Send(&local_lengths_6, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer6, local_lengths_6, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+        free(buffer6);
+        freeList(head6);
+        
+    }
+    else if(rank==7){
+        Node *head7 = NULL;
+        printf("Hola soy esclavo 7\n");
+        readBuffer(&head7,local_chunk);
+
+        char *buffer7 = saveToBuffer(head7);
+
+
+        int local_lengths_7 = strlen(buffer7);
+
+        MPI_Send(&local_lengths_7, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+        MPI_Send(buffer7, local_lengths_7, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
+
+        free(buffer7);
+        freeList(head7);
+        
+    }
 
 
     if (rank==0){
         int local_lengths_1,local_lengths_2,local_lengths_3;
-        MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-        MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
-        MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        int local_lengths_4,local_lengths_5,local_lengths_6,local_lengths_7;
+        if (size==1)
+        {
+            /* code */
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
 
-        char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
-        char *buffer_2 = (char *)malloc(local_lengths_2 +1);
-        char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+        }else if (size==2){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
 
-        MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);     
-
-        buffer_1[local_lengths_1] = '\0';
-        buffer_2[local_lengths_2] = '\0';
-        buffer_3[local_lengths_3] = '\0';
-
-        printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
-        printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
-        printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
-
-        printf("Chunk_del_buffer_1:%s\n",buffer_1);
-        printf("Chunk_del_buffer_2:%s\n",buffer_2);
-        printf("Chunk_del_buffer_3:%s\n",buffer_3);
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
+            buffer_1[local_lengths_1] = '\0';
 
 
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
 
-        free(buffer_1);
-        free(buffer_2);
-        free(buffer_3);  
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+
+            
+            free(buffer_1);
+
+        }else if (size==3){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+
+            free(buffer0);
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+           
+          
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+
+            
+            free(buffer_1);
+            free(buffer_2);
+
+        }else if (size==4){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+           
+          
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+            buffer_3[local_lengths_3] = '\0';
+
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+            printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+            printf("Chunk_del_buffer_3:%s\n",buffer_3);
+
+            
+            free(buffer_1);
+            free(buffer_2);
+            free(buffer_3);
+
+        }else if (size==5){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_4,1,MPI_INT,4,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+          
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_3, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+            buffer_3[local_lengths_3] = '\0';
+            buffer_4[local_lengths_4] = '\0';
+
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+            printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+            printf("Tamaño_de_buffer_4:%d\n",local_lengths_4);
+
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+            printf("Chunk_del_buffer_3:%s\n",buffer_3);
+            printf("Chunk_del_buffer_4:%s\n",buffer_4);
+
+            
+            free(buffer_1);
+            free(buffer_2);
+            free(buffer_3);
+            free(buffer_4);
+
+        }else if (size==6){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_4,1,MPI_INT,4,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_5,1,MPI_INT,5,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+           
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
+           
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_3, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_3, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);     
+           
+
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+            buffer_3[local_lengths_3] = '\0';
+            buffer_4[local_lengths_4] = '\0';
+            buffer_5[local_lengths_5] = '\0';
+            
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+            printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+            printf("Tamaño_de_buffer_4:%d\n",local_lengths_4);
+            printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
+          
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+            printf("Chunk_del_buffer_3:%s\n",buffer_3);
+            printf("Chunk_del_buffer_4:%s\n",buffer_4);
+            printf("Chunk_del_buffer_5:%s\n",buffer_5);
+            
+            free(buffer_1);
+            free(buffer_2);
+            free(buffer_3);
+            free(buffer_4);
+            free(buffer_5);
+
+
+        }else if (size==7){
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_4,1,MPI_INT,4,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_5,1,MPI_INT,5,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_6,1,MPI_INT,6,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
+            char *buffer_6 = (char *)malloc(local_lengths_6 +1);
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_3, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_3, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);     
+            MPI_Recv(buffer_6, local_lengths_3, MPI_CHAR, 6, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+            buffer_3[local_lengths_3] = '\0';
+            buffer_4[local_lengths_4] = '\0';
+            buffer_5[local_lengths_5] = '\0';
+            buffer_6[local_lengths_6] = '\0';
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+            printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+            printf("Tamaño_de_buffer_4:%d\n",local_lengths_4);
+            printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
+            printf("Tamaño_de_buffer_6:%d\n",local_lengths_6);
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+            printf("Chunk_del_buffer_3:%s\n",buffer_3);
+            printf("Chunk_del_buffer_4:%s\n",buffer_4);
+            printf("Chunk_del_buffer_5:%s\n",buffer_5);
+            printf("Chunk_del_buffer_6:%s\n",buffer_6);
+            
+            
+            free(buffer_1);
+            free(buffer_2);
+            free(buffer_3);
+            free(buffer_4);
+            free(buffer_5);
+            free(buffer_6);  
+            
+        }else if (size==8){  
+            printf("Hola soy master trabajando\n");
+            Node *head0 = NULL;
+            readBuffer(&head0,local_chunk);
+    
+            char *buffer0= saveToBuffer(head0);
+            int local_lengths_0 = strlen(buffer0);
+      
+            freeList(head0);
+            buffer0[local_lengths_0] = '\0';
+            printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
+            printf("Chunk_del_buffer_0:%s\n",buffer0);
+            free(buffer0);  
+
+            MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_3,1,MPI_INT,3,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_4,1,MPI_INT,4,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_5,1,MPI_INT,5,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_6,1,MPI_INT,6,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+            MPI_Recv(&local_lengths_7,1,MPI_INT,7,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+
+            char *buffer_1 = (char *)malloc(local_lengths_1 +1 );
+            char *buffer_2 = (char *)malloc(local_lengths_2 +1);
+            char *buffer_3 = (char *)malloc(local_lengths_3 +1);
+            char *buffer_4 = (char *)malloc(local_lengths_4 +1);
+            char *buffer_5 = (char *)malloc(local_lengths_5 +1);
+            char *buffer_6 = (char *)malloc(local_lengths_6 +1);
+            char *buffer_7 = (char *)malloc(local_lengths_7 +1);
+
+            MPI_Recv(buffer_1, local_lengths_1, MPI_CHAR, 1, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_4, local_lengths_3, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_3, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);     
+            MPI_Recv(buffer_6, local_lengths_3, MPI_CHAR, 6, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_7, local_lengths_3, MPI_CHAR, 7, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+            buffer_1[local_lengths_1] = '\0';
+            buffer_2[local_lengths_2] = '\0';
+            buffer_3[local_lengths_3] = '\0';
+            buffer_4[local_lengths_4] = '\0';
+            buffer_5[local_lengths_5] = '\0';
+            buffer_6[local_lengths_6] = '\0';
+            buffer_7[local_lengths_7] = '\0';
+
+            printf("Tamaño_de_buffer_1:%d\n",local_lengths_1);
+            printf("Tamaño_de_buffer_2:%d\n",local_lengths_2);
+            printf("Tamaño_de_buffer_3:%d\n",local_lengths_3);
+            printf("Tamaño_de_buffer_4:%d\n",local_lengths_4);
+            printf("Tamaño_de_buffer_5:%d\n",local_lengths_5);
+            printf("Tamaño_de_buffer_6:%d\n",local_lengths_6);
+            printf("Tamaño_de_buffer_7:%d\n",local_lengths_7);
+
+            printf("Chunk_del_buffer_1:%s\n",buffer_1);
+            printf("Chunk_del_buffer_2:%s\n",buffer_2);
+            printf("Chunk_del_buffer_3:%s\n",buffer_3);
+            printf("Chunk_del_buffer_4:%s\n",buffer_4);
+            printf("Chunk_del_buffer_5:%s\n",buffer_5);
+            printf("Chunk_del_buffer_6:%s\n",buffer_6);
+            printf("Chunk_del_buffer_7:%s\n",buffer_7);
+            
+            
+            free(buffer_1);
+            free(buffer_2);
+            free(buffer_3);
+            free(buffer_4);
+            free(buffer_5);
+            free(buffer_6);  
+            free(buffer_7);
+        }
+        
+        
+
     }
 
    

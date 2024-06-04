@@ -747,7 +747,7 @@ int main(int argc, char *argv[]) {
             MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             descifrar(buffer_1, buffer_1, 3);
             descifrar(buffer_2, buffer_2, 3);
@@ -805,12 +805,12 @@ int main(int argc, char *argv[]) {
             freeList(head0);
             buffer0[local_lengths_0] = '\0';
             printf("Tamaño_del_buffer_0:%d\n",local_lengths_0);
-            //printf("Chunk_del_buffer_0:%s\n",buffer0);
+
 
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
 
-            free(buffer0);
+
 
             MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
@@ -830,8 +830,8 @@ int main(int argc, char *argv[]) {
             MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 6, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             descifrar(buffer_1, buffer_1, 3);
             descifrar(buffer_2, buffer_2, 3);
@@ -899,7 +899,7 @@ int main(int argc, char *argv[]) {
 
             Node *mergedHead = NULL;
             mergedBuffer(&mergedHead, buffer0);
-            free(buffer0);  
+
 
             MPI_Recv(&local_lengths_1,1,MPI_INT,1,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
             MPI_Recv(&local_lengths_2,1,MPI_INT,2,TAG,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
@@ -921,9 +921,9 @@ int main(int argc, char *argv[]) {
             MPI_Recv(buffer_2, local_lengths_2, MPI_CHAR, 2, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_3, local_lengths_3, MPI_CHAR, 3, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_4, local_lengths_4, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            MPI_Recv(buffer_7, local_lengths_7, MPI_CHAR, 4, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_5, local_lengths_5, MPI_CHAR, 5, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_6, local_lengths_6, MPI_CHAR, 6, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(buffer_7, local_lengths_7, MPI_CHAR, 7, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             descifrar(buffer_1, buffer_1, 3);
             descifrar(buffer_2, buffer_2, 3);

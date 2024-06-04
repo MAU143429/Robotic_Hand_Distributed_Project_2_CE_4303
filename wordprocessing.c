@@ -146,20 +146,6 @@ void freeList(Node *head) {
     }
 }
 
-
-void readBuffer(const char *bufferR, const char *buffer) {
-
-    const char *delimiter = " \t\n"; // Delimitadores para palabras
-    char *word = strtok(strdup(buffer), delimiter); // Duplicar buffer para evitar modificarlo
-    while (word != NULL) {
-        addWord(head, word);
-        word = strtok(NULL, delimiter);
-    }
-
-    bufferR = saveToBuffer(head);
-   
-}
-
 char* saveToBuffer(Node *head) {
     size_t bufferSize = 1024;
     size_t offset = 0;
@@ -188,6 +174,21 @@ char* saveToBuffer(Node *head) {
     }
 
     return buffer;
+}
+
+
+
+void readBuffer(const char *bufferR, const char *buffer) {
+
+    const char *delimiter = " \t\n"; // Delimitadores para palabras
+    char *word = strtok(strdup(buffer), delimiter); // Duplicar buffer para evitar modificarlo
+    while (word != NULL) {
+        addWord(head, word);
+        word = strtok(NULL, delimiter);
+    }
+
+    bufferR = saveToBuffer(head);
+   
 }
 
 
@@ -306,10 +307,8 @@ int main(int argc, char *argv[]) {
     local_chunk[recv_length] = '\0';
 
     if(rank==1){
-        char mensajeCifrado[MAXIMA_LONGITUD_CADENA]
-        
-
-        char *buffer1 = NULL;
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer1;
 
         printf("Hola soy esclavo 1\n");
 
@@ -322,9 +321,13 @@ int main(int argc, char *argv[]) {
         MPI_Send(&local_lengths_1, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(mensajeCifrado, local_lengths_1, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
         free(buffer1);
-        freeList(head1);
+        //freeList(head1);
 
     }else if(rank==2){
+
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer2;
+
         char mensajeCifrado[MAXIMA_LONGITUD_CADENA], mensajeDescifrado[MAXIMA_LONGITUD_CADENA];
         Node *head2 = NULL;
 
@@ -345,15 +348,19 @@ int main(int argc, char *argv[]) {
 
 
         free(buffer2);
-        freeList(head2);
+        //freeList(head2);
 
         
     }else if(rank==3){
-        Node *head3 = NULL;
-        printf("Hola soy esclavo 3\n");
-        readBuffer(&head3,local_chunk);
 
-        char *buffer3 = saveToBuffer(head3);
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer3;
+    
+        //Node *head3 = NULL;
+        printf("Hola soy esclavo 3\n");
+        readBuffer(buffer3,local_chunk);
+
+        //char *buffer3 = saveToBuffer(head3);
 
 
         int local_lengths_3 = strlen(buffer3);
@@ -362,49 +369,53 @@ int main(int argc, char *argv[]) {
         MPI_Send(buffer3, local_lengths_3, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer3);
-        freeList(head3);
+        //freeList(head3);
         
     }
     else if(rank==4){
-        Node *head4 = NULL;
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer4;
+
+       
         printf("Hola soy esclavo 4\n");
-        readBuffer(&head4,local_chunk);
+        readBuffer(buffer4,local_chunk);
 
-        char *buffer4 = saveToBuffer(head4);
-
-
+        //char *buffer4 = saveToBuffer(head4);
         int local_lengths_4 = strlen(buffer4);
 
         MPI_Send(&local_lengths_4, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer4, local_lengths_4, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer4);
-        freeList(head4);
+       
         
     }
     else if(rank==5){
-        Node *head5 = NULL;
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer5;
+
+
         printf("Hola soy esclavo 5\n");
-        readBuffer(&head5,local_chunk);
+        readBuffer(buffer5,local_chunk);
 
-        char *buffer5 = saveToBuffer(head5);
-
-
+        //char *buffer5 = saveToBuffer(head5);
         int local_lengths_5 = strlen(buffer5);
 
         MPI_Send(&local_lengths_5, 1, MPI_INT, 0, TAG, MPI_COMM_WORLD);
         MPI_Send(buffer5, local_lengths_5, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer5);
-        freeList(head5);
+        
         
     }
     else if(rank==6){
-        Node *head6 = NULL;
-        printf("Hola soy esclavo 6\n");
-        readBuffer(&head6,local_chunk);
 
-        char *buffer6 = saveToBuffer(head6);
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer6;
+        printf("Hola soy esclavo 6\n");
+        readBuffer(buffer6,local_chunk);
+
+        //char *buffer6 = saveToBuffer(head6);
 
 
         int local_lengths_6 = strlen(buffer6);
@@ -413,15 +424,19 @@ int main(int argc, char *argv[]) {
         MPI_Send(buffer6, local_lengths_6, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer6);
-        freeList(head6);
+      
         
     }
     else if(rank==7){
-        Node *head7 = NULL;
-        printf("Hola soy esclavo 7\n");
-        readBuffer(&head7,local_chunk);
 
-        char *buffer7 = saveToBuffer(head7);
+        char mensajeCifrado[MAXIMA_LONGITUD_CADENA];
+        char *buffer7;
+
+        //Node *head7 = NULL;
+        printf("Hola soy esclavo 7\n");
+        readBuffer(buffer7,local_chunk);
+
+        //char *buffer7 = saveToBuffer(head7);
 
 
         int local_lengths_7 = strlen(buffer7);
@@ -430,7 +445,7 @@ int main(int argc, char *argv[]) {
         MPI_Send(buffer7, local_lengths_7, MPI_CHAR, 0,TAG, MPI_COMM_WORLD);
 
         free(buffer7);
-        freeList(head7);
+        //freeList(head7);
         
     }
 
@@ -442,7 +457,7 @@ int main(int argc, char *argv[]) {
         {
             /* code */
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
+            char *buffer0;
             readBuffer(buffer0,local_chunk);
     
             //char *buffer0= saveToBuffer(head0);
@@ -459,7 +474,8 @@ int main(int argc, char *argv[]) {
     
             // Crear una nueva lista para almacenar los conteos combinados
             Node *mergedHead = NULL;
-            char buffer_1_descifrado, buffer0;
+            char buffer_1_descifrado;
+            char *buffer0;
 
             readBuffer(buffer0,local_chunk);
     
@@ -503,10 +519,11 @@ int main(int argc, char *argv[]) {
 
         }else if (size==3){
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
+            char *buffer0;
+
+            readBuffer(buffer0,local_chunk);
     
-            char *buffer0= saveToBuffer(head0);
+            //char *buffer0= saveToBuffer(head0);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);
@@ -545,10 +562,9 @@ int main(int argc, char *argv[]) {
 
         }else if (size==4){
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
-    
-            char *buffer0= saveToBuffer(head0);
+            char *buffer0;
+
+            readBuffer(buffer0,local_chunk);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);
@@ -593,10 +609,9 @@ int main(int argc, char *argv[]) {
 
         }else if (size==5){
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
-    
-            char *buffer0= saveToBuffer(head0);
+            char *buffer0;
+
+            readBuffer(buffer0,local_chunk);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);
@@ -647,10 +662,8 @@ int main(int argc, char *argv[]) {
 
         }else if (size==6){
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
-    
-            char *buffer0= saveToBuffer(head0);
+            char *buffer0;
+            readBuffer(buffer0,local_chunk);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);
@@ -709,10 +722,9 @@ int main(int argc, char *argv[]) {
 
         }else if (size==7){
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
-    
-            char *buffer0= saveToBuffer(head0);
+            char *buffer0;
+
+            readBuffer(buffer0,local_chunk);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);
@@ -773,10 +785,9 @@ int main(int argc, char *argv[]) {
             
         }else if (size==8){  
             printf("Hola soy master trabajando\n");
-            Node *head0 = NULL;
-            readBuffer(&head0,local_chunk);
-    
-            char *buffer0= saveToBuffer(head0);
+            char *buffer0;
+
+            readBuffer(buffer0,local_chunk);
             int local_lengths_0 = strlen(buffer0);
       
             freeList(head0);

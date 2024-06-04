@@ -188,7 +188,7 @@ void loop() {
           Serial.println("Escribiendo una G");
           break;
         case 'h':
-          pushKey(90, 26, 110, 140, 150);
+          pushKey(84, 26, 110, 140, 150);
           Serial.println("Escribiendo una H");
           break;
         case 'i':

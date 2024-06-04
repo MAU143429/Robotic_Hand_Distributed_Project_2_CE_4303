@@ -141,16 +141,16 @@ int main() {
     // Leer las palabras del archivo de entrada
     readFile(&head, "ca.txt");
 
-    //char *buffer = saveToBuffer(head);
+    char *buffer = saveToBuffer(head);
 
-    //printList(head);
-    //printf("%s", buffer);
+    printList(head);
+    printf("%s", buffer);
     
 
     
     // Escribir la lista de palabras y sus conteos en el archivo de salida
-    writeFile(head, "algo_out.txt");
-    //free(buffer);
+   // writeFile(head, "algo_out.txt");
+    free(buffer);
 
     // Liberar la memoria
     freeList(head);

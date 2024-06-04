@@ -6,8 +6,8 @@ Servo servo3; // Declaramos un objeto Servo para el tercer motor
 Servo servo4; // Declaramos un objeto Servo para el cuarto motor
 
 int pos1 = 90;
-int pos2 = 40;
-int pos3 = 180;
+int pos2 = 20;
+int pos3 = 90;
 int pos4 = 50;
 
 void setup() {
@@ -160,111 +160,107 @@ void loop() {
           Serial.println("Reiniciando Posiciones");
           break;
         case 'a':
-          pushKey(132, 56, 100, 90, 130);
+          pushKey(132, 56, 60, 120, 160);
           Serial.println("Escribiendo una A");
           break;
         case 'b':
-          pushKey(100, 16, 126, 130, 150);
+          pushKey(98, 16, 110, 150, 150);
           Serial.println("Escribiendo una B");
           break;
         case 'c':
-          pushKey(118, 16, 138, 110, 160);
+          pushKey(116, 16, 120, 130, 140);
           Serial.println("Escribiendo una C");
           break;
         case 'd':
-          pushKey(118, 26, 130, 96, 160);
+          pushKey(116, 26, 120, 110, 160);
           Serial.println("Escribiendo una D");
           break;
         case 'e':
-          pushKey(116, 46, 110, 86, 140);
+          pushKey(116, 26, 130, 80, 160);
           Serial.println("Escribiendo una E");
           break;
         case 'f':
-          pushKey(110, 26, 120, 114, 150);
+          pushKey(108, 26, 114, 120, 150);
           Serial.println("Escribiendo una F");
           break;
         case 'g':
-          pushKey(102, 26, 120, 114, 160);
+          pushKey(100, 26, 110, 130, 160);
           Serial.println("Escribiendo una G");
           break;
         case 'h':
-          pushKey(92, 26, 120, 114, 160);
+          pushKey(90, 26, 110, 140, 150);
           Serial.println("Escribiendo una H");
           break;
         case 'i':
-          pushKey(76, 40, 100, 110, 130);
+          pushKey(74, 40, 110, 120, 140);
           Serial.println("Escribiendo una I");
           break;
         case 'j':
-          pushKey(82, 30, 100, 130, 150);
+          pushKey(80, 30, 100, 138, 130);
           Serial.println("Escribiendo una J");
           break;
         case 'k':
-          pushKey(74, 36, 100, 130, 130);
+          pushKey(66, 36, 86, 144, 140);
           Serial.println("Escribiendo una K");
           break;
         case 'l':
-          pushKey(64, 36, 100, 126, 130);
+          pushKey(58, 36, 94, 134, 120);
           Serial.println("Escribiendo una L");
           break;
         case 'm':
-          pushKey(74, 16, 116, 136, 140);
+          pushKey(70, 16, 110, 150, 130);
           Serial.println("Escribiendo una M");
           break;
         case 'n':
-          pushKey(86, 16, 116, 136, 136);
+          pushKey(82, 16, 110, 150, 130);
           Serial.println("Escribiendo una N");
           break;
-        case 'ñ':
-          pushKey(54, 40, 100, 120, 130);
-          Serial.println("Escribiendo una Ñ");
-          break;
         case 'o':
-          pushKey(68, 44, 100, 110, 130);
+          pushKey(64, 44, 86, 116, 150);
           Serial.println("Escribiendo una O");
           break;
         case 'p':
-          pushKey(60, 48, 100, 100, 130);
+          pushKey(56, 48, 80, 110, 160);
           Serial.println("Escribiendo una P");
           break;
         case 'q':
-          pushKey(128, 70, 90, 80, 120);
+          pushKey(128, 70, 60, 100, 160);
           Serial.println("Escribiendo una Q"); 
           break;
         case 'r':
-          pushKey(110, 40, 110, 96, 140);
+          pushKey(106, 40, 100, 110, 160);
           Serial.println("Escribiendo una R"); 
           break;
         case 's':
-          pushKey(126, 50, 90, 110, 120);
+          pushKey(124, 50, 94, 130, 120);
           Serial.println("Escribiendo una S");
           break;
         case 't':
-          pushKey(100, 46, 90, 116, 120);
+          pushKey(98, 46, 92, 124, 130);
           Serial.println("Escribiendo una T");
           break;
         case 'u':
-          pushKey(84, 44, 100, 116, 130);
+          pushKey(80, 44, 90, 130, 110);
           Serial.println("Escribiendo una U"); 
           break;
         case 'v':
-          pushKey(110, 16, 116, 132, 136);
+          pushKey(108, 16, 116, 144, 150);
           Serial.println("Escribiendo una V"); 
           break;
         case 'w':
-          pushKey(122, 60, 90, 90, 120);
+          pushKey(122, 60, 90, 106, 140);
           Serial.println("Escribiendo una W");
           break;
         case 'x':
-          pushKey(126, 16, 130, 100, 160);
+          pushKey(126, 16, 130, 120, 160);
           Serial.println("Escribiendo una X");
           break;
         case 'y':
-          pushKey(94, 44, 100, 116, 130);
+          pushKey(90, 44, 100, 128, 130);
           Serial.println("Escribiendo una Y");
           break;
         case 'z':
-          pushKey(132, 30, 130, 90, 160);
+          pushKey(134, 30, 130, 114, 160);
           Serial.println("Escribiendo una Z");
           break;
         default:

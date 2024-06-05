@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <mpi.h>
-
+#include "biblioteca.h"
 #define MANAGER 0
 #define TAG 1
 
@@ -13,7 +13,7 @@
 #define MOD(i, n) (i % n + n) % n // Calcular módulo positivo
 #define MAXIMA_LONGITUD_CADENA 1000000
 
-//Ultima version
+
 const char *alfabetoMinusculas = "abcdefghijklmnopqrstuvwxyz",
         *alfabetoMayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -241,7 +241,7 @@ int main(int argc, char *argv[]) {
     int file_size, chunk_size;
     char *buffer = NULL;
 
-    FILE *file = fopen("ca.txt", "r");
+    FILE *file = fopen("Shakespeare.txt", "r");
     if (file == NULL) {
         perror("Error opening file");
         MPI_Finalize();
@@ -452,6 +452,10 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             } 
@@ -504,6 +508,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             } 
@@ -564,6 +571,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
@@ -628,6 +638,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
@@ -703,6 +716,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
@@ -782,6 +798,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
@@ -871,6 +890,9 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
@@ -963,11 +985,13 @@ int main(int argc, char *argv[]) {
             // Mostrar e imprimir la palabra más frecuente
             if (mostFrequent != NULL) {
                 printf("Most frequent word: %s (%d occurrences)\n", mostFrequent->word, mostFrequent->count);
+                // hacer llamada a la bibloteca
+                char *palabra_mas_frecuente = strdup(mostFrequent->word);
+                send_serial(palabra_mas_frecuente);
             } else {
                 printf("No words found in the list.\n");
             }
-
-            
+           
             free(buffer0);
             free(buffer_1);
             free(buffer_2);
